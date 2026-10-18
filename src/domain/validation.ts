@@ -19,3 +19,26 @@ function isValidEmail(email: string): boolean {
 export function validateEmail(value: string): ValidationError | null {
   return validateEmpty(value) ?? (isValidEmail(value) ? null : 'invalidFormat')
 }
+
+// Phone rule (D-4): digits, spaces, hyphens and parentheses, with an optional
+// leading +, at most one pair of parentheses around digits only, and 7-15 digits.
+const PHONE_CHARS = /^\+?[\d ()-]+$/
+const PAREN_GROUP = /\(\d+\)/
+const MIN_PHONE_DIGITS = 7
+const MAX_PHONE_DIGITS = 15
+
+function isValidPhoneNumber(phNumber: string): boolean {
+  const digitCount = phNumber.replace(/\D/g, '').length
+  if (digitCount < MIN_PHONE_DIGITS || digitCount > MAX_PHONE_DIGITS)
+    return false
+  if (!PHONE_CHARS.test(phNumber)) return false
+  // Remove the one allowed group; any parenthesis left over is invalid.
+  return !/[()]/.test(phNumber.replace(PAREN_GROUP, ''))
+}
+
+export function validatePhoneNumber(phNumber: string): ValidationError | null {
+  return (
+    validateEmpty(phNumber) ??
+    (isValidPhoneNumber(phNumber) ? null : 'invalidFormat')
+  )
+}
