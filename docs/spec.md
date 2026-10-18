@@ -66,8 +66,9 @@ The yearly price is 10x the monthly price, which the design presents as "2 month
 ### 1. Personal info
 
 - [ ] **AC-1.1** Step 1 has Name, Email Address and Phone Number fields, each with a visible label tied to its input.
-- [ ] **AC-1.2** A field that is empty, or contains only whitespace and zero-width characters (U+200B, U+200C, U+200D, U+2060), is invalid, with the message "This field is required".
-- [ ] **AC-1.3** An email that is not in `local@domain.tld` form, with no spaces, is invalid, with a format message.
+- [x] **AC-1.2** A field that is empty, or contains only whitespace and zero-width characters (U+200B, U+200C, U+200D, U+2060), is invalid, with the message "This field is required".
+- [ ] **AC-1.3** A non-empty email that does not match the format in [D-10](#d-10-email-format) is invalid, with a format message.
+      An empty email shows the required error (AC-1.2), not the format error.
 - [ ] **AC-1.4** A phone number is invalid with a format message if it contains anything other than digits, spaces, `+`, `-`, `(` and `)`, or has fewer than 7 digits.
 - [ ] **AC-1.5** A field is validated when it loses focus, and its error is shown if it is invalid.
 - [ ] **AC-1.6** While a field is showing an error, it re-validates on every change, and the error disappears as soon as the value is valid.
@@ -183,3 +184,11 @@ There is no `services/` folder because the app has no I/O (D-5, D-6); one arrive
 
 At larger scale this would become feature folders (each feature owning its own UI, model and tests) with import boundaries enforced by lint.
 With one feature, that structure would only add ceremony.
+
+### D-10: Email format
+
+**Decided: a practical `local@domain.tld` rule, not full RFC 5322.**
+A valid email has exactly one `@`, a non-empty local part with no whitespace, and a domain of non-empty, dot-separated labels made of ASCII letters, digits and hyphens, ending in a top-level domain of at least two letters.
+
+This is stricter than the browser's `<input type="email">`, whose WHATWG rule accepts `a@a` with no top-level domain.
+Out of scope: checking that the domain exists (DNS or MX lookups), quoted local parts such as `"a b"@example.com`, IP address domains, and non-ASCII (internationalized) addresses.

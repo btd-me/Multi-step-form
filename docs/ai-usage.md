@@ -29,3 +29,16 @@ This log feeds the "How I used AI" section of the README.
   I added a test for it, plus one for a space inside a value.
 - **AI mistake caught:** Claude's first commit wrote the regex with the literal invisible characters instead of `\u` escapes, so it read as `/[-]/g` in the editor.
   Fixed to escapes before merge.
+
+### AC-1.3: Email format validator (PR #5)
+
+- **My brief:** `isValidEmail(email)` returning `true | false`, checking for an empty field first, with my passing and failing inputs; domain validation out of scope.
+- **Pushback I accepted:** a boolean return would make an empty email and a malformed one look the same, which breaks D-8 and my own "empty first" constraint.
+  Kept `isValidEmail` as a private boolean helper and made the public `validateEmail` return `'required' | 'invalidFormat' | null`.
+  Also added real-world passing formats (dots, plus addressing, subdomains, uppercase) and split `b@@a..com`, which broke two rules at once, into single-rule cases.
+- **Delegated:** I asked Claude to use its recommended options for the open points: a TLD of two or more letters, no DNS or MX lookups, and no full RFC 5322 or non-ASCII addresses.
+  Claude wrote these up as D-10 in the spec.
+- **Mutation check:** Claude broke the regex in seven ways before opening the PR; removing the end anchor was not caught, so it added a test for trailing text after the address.
+- **Found in review:** no changes.
+  I considered splitting the email at spaces, and decided against it: a validator should report problems, not rewrite input, and an inner space is almost always a typo only the user can fix.
+  Surrounding spaces are handled by trimming (AC-1.9).
