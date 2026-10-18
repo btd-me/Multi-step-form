@@ -1,7 +1,7 @@
 export type ValidationError = 'required'
 
 // Invisible characters that String.prototype.trim() does not remove.
-const ZERO_WIDTH_CHARS = /[​-‍⁠]/g
+const ZERO_WIDTH_CHARS = /[\u200B-\u200D\u2060]/g
 
 export function validateEmpty(field: string): ValidationError | null {
   const visible = field.replace(ZERO_WIDTH_CHARS, '').trim()
