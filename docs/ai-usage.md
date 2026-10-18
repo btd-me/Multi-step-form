@@ -42,3 +42,13 @@ This log feeds the "How I used AI" section of the README.
 - **Found in review:** no changes.
   I considered splitting the email at spaces, and decided against it: a validator should report problems, not rewrite input, and an inner space is almost always a typo only the user can fix.
   Surrounding spaces are handled by trimming (AC-1.9).
+
+### AC-1.4: Phone number format validator (PR #6)
+
+- **My brief:** written from a template Claude gave me.
+  `validatePhoneNumber` returning `'required' | 'invalidFormat' | null` with a private `isValidPhoneNumber` helper, an empty check first, a leading `+` only, 7 to 15 digits, my own passing and failing inputs, and an explicit out-of-scope list.
+- **Pushback I accepted:** "parentheses around the area code only" could not be tested without country-specific rules, which I had ruled out, so it became "at most one balanced pair containing only digits".
+  I also added failing inputs for rules that had none (a non-leading `+`, two `+`, 16 digits, a dot, letters, unbalanced parentheses) and passing inputs at the 7- and 15-digit boundaries and with hyphens.
+- **Delegated:** the implementation, the tests from the agreed list, and the D-4 rewrite in the spec.
+- **Mutation check:** Claude broke the validator in twelve ways, including off-by-one digit limits, a `+` allowed anywhere, missing anchors and empty parentheses; all were caught.
+- **Found in review:** _to fill in after my review._

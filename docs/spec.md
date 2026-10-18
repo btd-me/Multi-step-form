@@ -67,9 +67,10 @@ The yearly price is 10x the monthly price, which the design presents as "2 month
 
 - [ ] **AC-1.1** Step 1 has Name, Email Address and Phone Number fields, each with a visible label tied to its input.
 - [x] **AC-1.2** A field that is empty, or contains only whitespace and zero-width characters (U+200B, U+200C, U+200D, U+2060), is invalid, with the message "This field is required".
-- [ ] **AC-1.3** A non-empty email that does not match the format in [D-10](#d-10-email-format) is invalid, with a format message.
+- [x] **AC-1.3** A non-empty email that does not match the format in [D-10](#d-10-email-format) is invalid, with a format message.
       An empty email shows the required error (AC-1.2), not the format error.
-- [ ] **AC-1.4** A phone number is invalid with a format message if it contains anything other than digits, spaces, `+`, `-`, `(` and `)`, or has fewer than 7 digits.
+- [x] **AC-1.4** A non-empty phone number that breaks the rule in [D-4](#d-4-phone-number-rules) is invalid, with a format message.
+      An empty phone number shows the required error (AC-1.2), not the format error.
 - [ ] **AC-1.5** A field is validated when it loses focus, and its error is shown if it is invalid.
 - [ ] **AC-1.6** While a field is showing an error, it re-validates on every change, and the error disappears as soon as the value is valid.
 - [ ] **AC-1.7** Submitting step 1 validates all three fields, including ones never focused, shows every error, and moves focus to the first invalid field.
@@ -139,8 +140,16 @@ Forward jumps validate the steps they would skip and stop at the first invalid o
 
 ### D-4: Phone number rules
 
-**Decided: required, allowed characters only, and at least 7 digits.**
+**Decided: required, allowed characters only, and 7 to 15 digits.**
+A valid phone number:
+
+- contains only digits, spaces, hyphens, parentheses and an optional `+`;
+- has the `+`, if any, only as the first character;
+- has at most one pair of parentheses, balanced and containing only digits, for example `+1 (234) 567 890`;
+- has between 7 and 15 digits; 15 is the E.164 maximum.
+
 Full E.164 parsing was rejected because it adds a large dependency for little gain in a demo.
+Out of scope: checking that the number exists, country-specific formats (including which digits are an area code), and normalizing numbers to E.164 for storage.
 
 ### D-5: Persistence
 
