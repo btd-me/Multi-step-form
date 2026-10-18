@@ -39,4 +39,6 @@ This log feeds the "How I used AI" section of the README.
 - **Delegated:** I asked Claude to use its recommended options for the open points: a TLD of two or more letters, no DNS or MX lookups, and no full RFC 5322 or non-ASCII addresses.
   Claude wrote these up as D-10 in the spec.
 - **Mutation check:** Claude broke the regex in seven ways before opening the PR; removing the end anchor was not caught, so it added a test for trailing text after the address.
-- **Found in review:** _to fill in after my review._
+- **Found in review:** no changes.
+  I considered splitting the email at spaces, and decided against it: a validator should report problems, not rewrite input, and an inner space is almost always a typo only the user can fix.
+  Surrounding spaces are handled by trimming (AC-1.9).
