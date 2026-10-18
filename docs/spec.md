@@ -11,6 +11,11 @@ Every AC gets at least one test whose name starts with its ID, so `grep AC-1.3` 
 We build one AC at a time: write the failing test, make it pass, refactor, then tick the box here.
 If the build reveals that an AC is wrong or missing, update this file first, then the code.
 
+All changes reach `main` through a pull request; nothing is pushed to `main` directly.
+Branches are named after what they deliver, for example `ac-1.2-required-field`, or `chore/<topic>` for tooling.
+A PR covers one AC, or a few tightly related ones, and ticks their boxes in this file in the same PR.
+CI must pass before merging, and PRs are squash-merged so `main` has one commit per slice.
+
 ## Scope
 
 In scope: a client-side, four-step subscription form plus a confirmation screen, matching the designs at 375px and 1440px and working from 320px up.
