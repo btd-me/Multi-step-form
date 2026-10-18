@@ -156,3 +156,30 @@ The current step lives in memory only, so there are no deep links to guard.
 **Decided: no `+` on the total in either period.**
 The monthly summary design shows `+$12/mo` and the yearly one shows `$120/yr`.
 A `+` belongs on add-on rows, which add to the plan, not on a total, so the monthly design is treated as a mistake.
+
+### D-8: Validator return shape
+
+**Decided: error codes.**
+Validators return a code such as `'required'` or `'invalidFormat'`, or `null` when the value is valid.
+The UI maps codes to messages, so copy changes never touch domain code or its tests, and AC-1.8 (messages and `aria-describedby`) stays a UI concern.
+Booleans were rejected because the UI could not tell "required" from "bad format".
+Message strings were rejected because they mix UI copy into the domain.
+
+### D-9: Source layout
+
+**Decided: a hybrid of a pure domain layer and step components.**
+
+```
+src/
+  domain/   pure TypeScript: validation, pricing, navigation state
+  steps/    one React component per step
+```
+
+Code in `src/domain/` must not import React or perform I/O, which keeps its tests fast and free of the DOM.
+Unit tests sit next to the file they cover, for example `validation.test.ts` beside `validation.ts`.
+End-to-end tests, if added, go in a top-level `e2e/` folder.
+Folders are created when their first file is needed, not ahead of time.
+There is no `services/` folder because the app has no I/O (D-5, D-6); one arrives with the first network or storage call.
+
+At larger scale this would become feature folders (each feature owning its own UI, model and tests) with import boundaries enforced by lint.
+With one feature, that structure would only add ceremony.
