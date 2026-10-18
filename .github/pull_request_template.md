@@ -1,6 +1,10 @@
+## Why
+
+<!-- One or two sentences on why this change exists. This becomes the squash commit body on main. -->
+
 ## Acceptance criteria
 
-<!-- List the AC IDs from docs/spec.md this PR covers, and tick them in the spec. -->
+<!-- List the AC IDs from docs/spec.md this PR covers, and tick them in the spec. Write "None (chore)" for tooling or docs PRs. -->
 
 - AC-
 
@@ -9,6 +13,10 @@
 <!-- Did building this change or add an AC or decision? Say what and why, or write "None". -->
 
 None
+
+## Notes
+
+<!-- Optional: anything a reviewer should know, such as trade-offs, follow-ups or known gaps. Delete if empty. -->
 
 ## Checks
 
